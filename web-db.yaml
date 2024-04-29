@@ -1,0 +1,35 @@
+---
+- name: Webserver setup
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: install httpd
+      ansible.builtin.yum: 
+        name: httpd
+        state: present 
+    
+    - name: Start web service
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: install firewall
+      ansible.builtin.yum: 
+        name: firewalld
+        state: present
+
+- name: Database setup
+  hosts: database_servers
+  become: yes
+  tasks: 
+    - name: install database package
+      ansible.buitin.yum:
+        name: mariadb-server
+        state: present
+    
+    - name: Start database service
+      ansible.builtin.service:
+      name: mariadb
+      state: started
+   
